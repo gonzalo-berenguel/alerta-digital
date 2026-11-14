@@ -7,14 +7,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Puerto dinámico para la nube (Render, Railway, etc.) o 3000 local
 const PORT = process.env.PORT || 3000;
-const QUESTION_TIME = 20000;
+const QUESTION_TIME = 20000; // 20 segundos
 
-// Servir archivos estáticos desde la carpeta "public"
 app.use(express.static("public"));
 
-// Cargar preguntas
 let QUESTIONS = [];
 try {
   QUESTIONS = JSON.parse(fs.readFileSync("questions.json", "utf8"));
@@ -25,13 +22,18 @@ try {
 let players = {};
 let currentQuestionIndex = -1;
 let questionTimeout = null;
+let juegoIniciado = false; // Bandera de seguridad
 
 // =====================================
-// INICIAR JUEGO
+// INICIAR JUEGO (Solo al hacer clic en el botón)
 // =====================================
 app.get("/start", (req, res) => {
-  currentQuestionIndex = -1;
-  nextQuestion();
+  if (!juegoIniciado) {
+    juegoIniciado = true;
+    currentQuestionIndex = -1;
+    nextQuestion();
+    console.log("¡Juego iniciado manualmente por el host!");
+  }
   res.send("Juego iniciado");
 });
 
@@ -50,6 +52,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("answer", (answerIndex) => {
+    if (!juegoIniciado) return;
     const question = QUESTIONS[currentQuestionIndex];
     if (!question) return;
 
@@ -78,6 +81,7 @@ function nextQuestion() {
   } else {
     io.emit("gameOver", Object.values(players));
     clearTimeout(questionTimeout);
+    juegoIniciado = false; // Reinicia el estado al terminar
   }
 }
 
