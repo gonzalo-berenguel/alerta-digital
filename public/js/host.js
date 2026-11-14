@@ -1,8 +1,15 @@
 const socket = io();
 
-// BOTÓN PARA INICIAR JUEGO
-document.getElementById("startBtn").onclick = () => {
-  fetch("/start");
+const startBtn = document.getElementById("startBtn");
+
+// BOTÓN PARA INICIAR JUEGO (Solo arranca al hacer clic)
+startBtn.onclick = () => {
+  fetch("/start")
+    .then(() => {
+      // Ocultar el botón para evitar dobles clics durante la partida
+      startBtn.style.display = "none";
+    })
+    .catch(err => console.error("Error al iniciar:", err));
 };
 
 // TEMPORIZADOR
@@ -41,17 +48,27 @@ socket.on("newQuestion", (q) => {
   // Mostrar pregunta
   document.getElementById("question").innerHTML = `<h2>${q.question}</h2>`;
 
-  // Mostrar respuestas (solo lectura)
+  // Mostrar respuestas (solo lectura en la pantalla principal)
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
-  q.choices.forEach((choice) => {
+  
+  let optionsList = [];
+  if (Array.isArray(q.choices)) {
+    optionsList = q.choices;
+  } else if (Array.isArray(q.options)) {
+    optionsList = q.options;
+  } else if (Array.isArray(q.answers)) {
+    optionsList = q.answers;
+  }
+
+  optionsList.forEach((choice) => {
     const btn = document.createElement("button");
     btn.innerText = choice;
-    btn.disabled = true; // host solo muestra
+    btn.disabled = true; // El host solo muestra las opciones
     answersDiv.appendChild(btn);
   });
 
-  // Iniciar temporizador de 20 segundos
+  // Iniciar temporizador de 20 segundos sincronizado
   startCountdown(20);
 });
 
@@ -66,9 +83,10 @@ socket.on("playersUpdate", (players) => {
 
 // JUEGO TERMINADO
 socket.on("gameOver", (players) => {
-  // Mostrar mensaje de fin
-  document.getElementById("question").innerHTML = "<h2>Juego terminado 🎉</h2>";
+  // Mostrar mensaje de fin y volver a mostrar el botón por si quieren reiniciar
+  document.getElementById("question").innerHTML = "<h2>¡Juego terminado 🎉 Revisa los resultados!</h2>";
   document.getElementById("answers").innerHTML = "";
+  startBtn.style.display = "block"; 
 
   // Ranking final
   const ranking = players
