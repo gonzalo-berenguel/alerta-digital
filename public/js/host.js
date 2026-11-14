@@ -52,7 +52,7 @@ socket.on("newQuestion", (q) => {
   });
 
   // Iniciar temporizador de 20 segundos
-  startCountdown(5);
+  startCountdown(20);
 });
 
 // ACTUALIZAR RANKING
