@@ -9,7 +9,7 @@ const io = new Server(server);
 
 // Puerto dinámico para la nube (Render, Railway, etc.) o 3000 local
 const PORT = process.env.PORT || 3000;
-const QUESTION_TIME = 5000;
+const QUESTION_TIME = 20000;
 
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static("public"));
