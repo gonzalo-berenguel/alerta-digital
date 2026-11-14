@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerta Digital - Participante</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 16px;
+      text-align: center;
+      background: var(--bg-main);
+      color: var(--text-main);
+    }
+
+    .card {
+      background: var(--bg-card);
+      padding: 24px 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0F172A;
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-main:active {
+      transform: scale(0.98);
+    }
+
+    #game-interface {
+      display: none;
+      width: 100%;
+      max-width: 400px;
+      background: var(--bg-card);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    #status-msg {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    #player-answers {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .ans-btn {
+      width: 100%;
+      min-height: 65px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: filter 0.2s, transform 0.1s;
+    }
+
+    .ans-btn:active {
+      transform: scale(0.98);
+      filter: brightness(0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="login-container" class="card">
+    <h2>Alerta Digital</h2>
+    <p>Ingresa tu nombre para unirte al juego</p>
+    <input type="text" id="playerName" placeholder="Tu nombre..." autocomplete="off">
+    <button class="btn-main" id="joinBtn">Ingresar</button>
+  </div>
+
+  <div id="game-interface">
+    <h3 id="status-msg">Esperando a que comience la pregunta...</h3>
+    <div id="player-answers"></div>
+  </div>
+
+  <script>
+    const socket = io();
+    const loginContainer = document.getElementById("login-container");
+    const gameInterface = document.getElementById("game-interface");
+    const playerNameInput = document.getElementById("playerName");
+    const joinBtn = document.getElementById("joinBtn");
+    const statusMsg = document.getElementById("status-msg");
+    const playerAnswers = document.getElementById("player-answers");
+
+    joinBtn.addEventListener("click", () => {
+      const name = playerNameInput.value.trim();
+      if (!name) {
+        alert("Por favor ingresa un nombre");
+        return;
+      }
+      
+      socket.emit("join", name);
+      loginContainer.style.display = "none";
+      gameInterface.style.display = "block";
+      statusMsg.innerText = "¡Conectado! Esperando la primera pregunta...";
+    });
+
+    socket.on("newQuestion", (question) => {
+      const questionText = question.question || question.text || "Pregunta sin texto";
+      statusMsg.innerText = questionText;
+      playerAnswers.innerHTML = "";
+
+      let optionsList = [];
+      if (Array.isArray(question.choices)) {
+        optionsList = question.choices;
+      } else if (Array.isArray(question.options)) {
+        optionsList = question.options;
+      } else if (Array.isArray(question.answers)) {
+        optionsList = question.answers;
+      }
+
+      if (optionsList.length === 0) {
+        playerAnswers.innerHTML = "<p style='color: var(--danger);'>Error: No se encontraron opciones para esta pregunta.</p>";
+        return;
+      }
+
+      optionsList.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = "ans-btn";
+        btn.innerText = opt;
+        
+        const colors = ["var(--danger)", "var(--info)", "var(--success)", "var(--warning)"];
+        btn.style.background = colors[index % colors.length];
+        if (index === 3) btn.style.color = "#111827";
+
+        btn.addEventListener("click", () => {
+          socket.emit("answer", index);
+          playerAnswers.innerHTML = "<h3 style='color: var(--success); padding: 20px; font-size: 1.2rem;'>¡Respuesta enviada! 🎯<br><span style='font-size:0.9rem; color:var(--text-muted); font-weight:normal;'>Esperando resultado...</span></h3>";
+        });
+
+        playerAnswers.appendChild(btn);
+      });
+    });
+
+    socket.on("gameOver", () => {
+      statusMsg.innerText = "🏆 ¡Juego finalizado! Revisa la pantalla principal.";
+      playerAnswers.innerHTML = "";
+    });
+  </script>
+</body>
+</html>

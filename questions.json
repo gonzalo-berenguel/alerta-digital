@@ -1,0 +1,72 @@
+[
+  {
+    "question": "¿Qué deberías hacer si recibes un mensaje sospechoso con un enlace desconocido?",
+    "choices": ["Abrirlo rápido para ver qué es", "Ignorarlo y eliminarlo", "Reenviarlo a tus contactos", "Responder pidiendo más información"],
+    "correct": 1
+  },
+  {
+    "question": "¿Cuál de estas contraseñas es más segura?",
+    "choices": ["123456", "miNombre2024", "H@rD!2#kL9", "contraseña"],
+    "correct": 2
+  },
+{
+  "question": "¿Qué es un QR trucho en un comercio?",
+  "choices": [
+    "Un QR que no funciona",
+    "Un sticker con el QR del estafador pegado arriba del QR real del local para que le transfieras a él",
+    "Un QR de colores",
+    "Un QR vencido"
+  ],
+  "correct": 1
+},
+  {
+    "question": "Si alguien te pide fotos personales en redes sociales, deberías...",
+    "choices": ["Enviarlas si confías en la persona", "Negarte y contarlo a un adulto o autoridad", "Pedir fotos a cambio", "Ignorarlo y seguir hablando"],
+    "correct": 1
+  },
+{
+  "question": "Te llega por WhatsApp: 'Hola pa, perdí el celu, este es mi nuevo número, ¿me podés transferir $20.000 que estoy varado?'",
+  "choices": [
+    "Transfiero urgente, es mi papá",
+    "Es la estafa del cuento del tío, debo llamar al número VIEJO de mi papá por llamada para verificar",
+    "Le pido una foto",
+    "Le pregunto dónde está"
+  ],
+  "correct": 1
+},
+{
+  "question": "¿Cuál es el mayor riesgo de usar la misma contraseña para tu mail, Instagram y Mercado Pago?",
+  "choices": [
+    "Que sea difícil de recordar",
+    "Que si te roban una, te roban todas las cuentas",
+    "Que te llegue más spam",
+    "Que la cuenta se bloquee"
+  ],
+  "correct": 1
+},
+  {
+    "question": "¿Por qué es importante revisar los permisos que das a las apps?",
+    "choices": ["Porque puede afectar la duración de la batería", "Porque pueden acceder a datos personales sin que lo notes", "Porque así funciona más rápido", "No es importante"],
+    "correct": 1
+  },
+  {
+  "question": "¿Qué hace la autenticación en dos pasos (2FA) en tu mail o Instagram?",
+  "choices": [
+    "Te pide dos contraseñas iguales",
+    "Aunque alguien sepa tu clave, no puede entrar sin un código que llega a tu celular",
+    "Hace que tu cuenta sea pública",
+    "Borra los mensajes viejos"
+  ],
+  "correct": 1
+},
+  {
+    "question": "Si publicas demasiada información personal en redes...",
+    "choices": ["Tendrás más amigos", "Podrías ser víctima de estafas o acoso", "Ganarás seguidores", "Tu cuenta será verificada"],
+    "correct": 1
+  },
+  {
+    "question": "¿Qué es la 'huella digital' en Internet?",
+    "choices": ["La contraseña de tu cuenta", "La información que dejas al navegar, publicar y compartir en línea", "Una app de seguridad", "El historial del teclado"],
+    "correct": 1
+  }
+]

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALERTA DIGITAL</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script defer src="js/host.js"></script>
+</head>
+
+<body>
+
+  <main class="dashboard">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <section id="ranking-container" class="panel-izquierdo">
+      <div id="ranking">
+        <h3>RANKING</h3>
+      </div>
+      <div id="timer-container">
+        <h3>TIEMPO</h3>
+        <div id="timer-number">0</div>
+        <div class="timer-track">
+          <div id="timer-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUMNA CENTRAL -->
+    <section class="zona-juego">
+      <header class="encabezado">
+        <h1>ALERTA DIGITAL</h1>
+        <h2>EFP SAN VICENTE DE PAUL</h2>
+        <p>Desarrollado por el TRAYECTO DE INFORMÁTICA</p>
+      </header>
+
+      <div class="invitacion">
+        <p>Escanea el QR para unirte al juego:</p>
+        <div id="qr">
+          <!-- 
+            Aquí podrás colocar una etiqueta <img> con tu QR estático 
+            cuando subas el proyecto y obtengas la URL de tu hosting.
+            Ejemplo: <img src="img/tu-qr.png" alt="QR unirse" style="width:100%; height:100%; object-fit:contain;">
+          -->
+          <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 0.9rem; text-align: center; padding: 10px;">
+            Coloca aquí tu QR estático cuando tengas la URL del hosting
+          </div>
+        </div>
+      </div>
+
+      <button id="startBtn" type="button">
+        INICIAR JUEGO
+      </button>
+
+      <div id="question" aria-live="polite"></div>
+      <div id="answers"></div>
+    </section>
+
+    <!-- COLUMNA DERECHA -->
+    <aside class="panel-derecho">
+      <section class="equipo">
+        <h3>EQUIPO DE DESARROLLO</h3>
+        <div class="integrantes">
+          <div class="integrante">
+            <span>INTEGRANTE</span>
+            <p>Ignacio Fecha</p>
+          </div>
+          <div class="integrante">
+            <span>INTEGRANTE</span>
+            <p>Patricia Escobar</p>
+          </div>
+          <div class="integrante">
+            <span>INTEGRANTE</span>
+            <p>Melian Adrian</p>
+          </div>
+          <div class="integrante">
+            <span>INTEGRANTE</span>
+            <p>Cecilia Leguina</p>
+          </div>
+        </div>
+        <div class="docente">
+          <span>DOCENTE</span>
+          <p>Prof. Gonzalo Berenguel</p>
+        </div>
+      </section>
+    </aside>
+
+  </main>
+
+</body>
+</html>
