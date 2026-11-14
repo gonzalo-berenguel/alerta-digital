@@ -9,27 +9,73 @@
 
   <script src="/socket.io/socket.io.js"></script>
   <script defer src="js/host.js"></script>
+
+  <style>
+    /* Ajustes para proyección centrada en pared */
+    .dashboard {
+      display: flex !important;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 15px 25px;
+    }
+
+    .zona-juego {
+      width: 100% !important;
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Contenedor horizontal de Ranking y Tiempo en el centro */
+    #ranking-container.centro-proyeccion {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: stretch;
+      gap: 20px;
+      width: 100%;
+      margin: 15px 0;
+    }
+
+    #ranking-container.centro-proyeccion #ranking,
+    #ranking-container.centro-proyeccion #timer-container {
+      flex: 1;
+      width: auto;
+    }
+
+    /* Bloque de equipo compacto al pie para que no se corte en los bordes */
+    .equipo-pie {
+      width: 100%;
+      margin-top: 25px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .equipo-pie h3 {
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      opacity: 0.85;
+    }
+
+    .equipo-pie p {
+      margin: 4px 0;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
 <body>
 
   <main class="dashboard">
 
-    <!-- COLUMNA IZQUIERDA -->
-    <section id="ranking-container" class="panel-izquierdo">
-      <div id="ranking">
-        <h3>RANKING</h3>
-      </div>
-      <div id="timer-container">
-        <h3>TIEMPO</h3>
-        <div id="timer-number">0</div>
-        <div class="timer-track">
-          <div id="timer-bar"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- COLUMNA CENTRAL -->
+    <!-- COLUMNA CENTRAL ÚNICA OPTIMIZADA PARA PROYECTOR -->
     <section class="zona-juego">
       <header class="encabezado">
         <h1>ALERTA DIGITAL</h1>
@@ -37,19 +83,19 @@
         <p>Desarrollado por el TRAYECTO DE INFORMÁTICA</p>
       </header>
 
-      <div class="invitacion">
-        <p>Escanea el QR para unirte al juego:</p>
-        <div id="qr">
-          <!-- 
-            Aquí podrás colocar una etiqueta <img> con tu QR estático 
-            cuando subas el proyecto y obtengas la URL de tu hosting.
-            Ejemplo: <img src="img/tu-qr.png" alt="QR unirse" style="width:100%; height:100%; object-fit:contain;">
-          -->
-          <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 0.9rem; text-align: center; padding: 10px;">
-            Coloca aquí tu QR estático cuando tengas la URL del hosting
+      <!-- RANKING Y TIEMPO ORDENADOS EN EL CENTRO -->
+      <section id="ranking-container" class="centro-proyeccion">
+        <div id="ranking">
+          <h3>RANKING</h3>
+        </div>
+        <div id="timer-container">
+          <h3>TIEMPO</h3>
+          <div id="timer-number">0</div>
+          <div class="timer-track">
+            <div id="timer-bar"></div>
           </div>
         </div>
-      </div>
+      </section>
 
       <button id="startBtn" type="button">
         INICIAR JUEGO
@@ -57,36 +103,18 @@
 
       <div id="question" aria-live="polite"></div>
       <div id="answers"></div>
-    </section>
 
-    <!-- COLUMNA DERECHA -->
-    <aside class="panel-derecho">
-      <section class="equipo">
+      <!-- CRÉDITOS COMPACTOS AL PIE -->
+      <footer class="equipo-pie">
         <h3>EQUIPO DE DESARROLLO</h3>
-        <div class="integrantes">
-          <div class="integrante">
-            <span>INTEGRANTE</span>
-            <p>Ignacio Fecha</p>
-          </div>
-          <div class="integrante">
-            <span>INTEGRANTE</span>
-            <p>Patricia Escobar</p>
-          </div>
-          <div class="integrante">
-            <span>INTEGRANTE</span>
-            <p>Melian Adrian</p>
-          </div>
-          <div class="integrante">
-            <span>INTEGRANTE</span>
-            <p>Cecilia Leguina</p>
-          </div>
-        </div>
-        <div class="docente">
-          <span>DOCENTE</span>
-          <p>Prof. Gonzalo Berenguel</p>
-        </div>
-      </section>
-    </aside>
+        <p>
+          <strong>Integrantes:</strong> Ignacio Fecha · Patricia Escobar · Melian Adrian · Cecilia Leguina
+        </p>
+        <p>
+          <strong>Docente:</strong> Prof. Gonzalo Berenguel
+        </p>
+      </footer>
+    </section>
 
   </main>
 
